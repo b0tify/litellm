@@ -1,0 +1,43 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: litellm
+  annotations:
+    serving.knative.dev/creator: atfpom4h@gmail.com
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/maxScale: '1'
+        run.googleapis.com/cloudsql-instances: pom4h-bank:us-central1:pg16
+        run.googleapis.com/client-name: cloud-console
+        run.googleapis.com/startup-cpu-boost: 'false'
+    spec:
+      containers:
+      - image: litellm
+        ports:
+        - name: http1
+          containerPort: 4000
+        env:
+        - name: STORE_MODEL_IN_DB
+          value: "True"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: LITELLM_DATABASE_URL
+              key: LITELLM_DATABASE_URL
+        - name: LITELLM_MASTER_KEY
+          valueFrom:
+            secretKeyRef:
+              name: LITELLM_MASTER_KEY
+              key: LITELLM_MASTER_KEY
+        - name: LITELLM_SALT_KEY
+          valueFrom:
+            secretKeyRef:
+              name: AUTH_SECRET
+              key: AUTH_SECRET
+        resources:
+          limits:
+            memory: 2Gi
+            cpu: 1000m
+

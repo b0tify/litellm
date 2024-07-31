@@ -1,0 +1,20 @@
+apiVersion: skaffold/v4beta10
+kind: Config
+
+build:
+  platforms: ["linux/amd64"]
+  local:
+    push: true
+  artifacts:
+  - image: litellm
+    docker:
+      dockerfile: Dockerfile.worken
+
+manifests:
+  rawYaml:
+  - worken/litellm.yaml
+
+deploy:
+  cloudrun:
+    projectid: pom4h-bank
+    region: us-central1

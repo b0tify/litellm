@@ -1,0 +1,36 @@
+name: Deploy to production
+
+on:
+  push:
+    branches:
+    - worken
+    paths:
+    - '.github/workflows/*.yaml'
+    - 'resources/*.yaml'
+    - 'litellm/**'
+    - 'worken/**'
+    - 'skaffold.yaml'
+
+jobs:
+  deploy:
+    permissions:
+      contents: read
+      id-token: write
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: google-github-actions/auth@v2
+      with:
+        project_id: 'pom4h-bank'
+        workload_identity_provider: projects/833262790614/locations/global/workloadIdentityPools/github-actions/providers/b0tify
+
+    - uses: google-github-actions/setup-gcloud@v2
+
+    - name: Install Skaffold
+      run: gcloud components install skaffold
+
+    - name: Run Skaffold
+      run: skaffold run --default-repo=gcr.io/pom4h-bank
