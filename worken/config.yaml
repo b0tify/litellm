@@ -3,6 +3,7 @@ router_settings:
   redis_password: ""
   redis_port: 6379
 
-litellm_settings:
-  set_verbose: False # Switch off Debug Logging, ensure your logs do not have any debugging on
+litellm_settings: 
+  callbacks: ["langfuse"]
+  redact_user_api_key_info: true
   json_logs: true # Get debug logs in json format
