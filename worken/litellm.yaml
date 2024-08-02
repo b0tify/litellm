@@ -21,6 +21,12 @@ spec:
         env:
         - name: STORE_MODEL_IN_DB
           value: "True"
+        - name: LANGFUSE_HOST
+          value: https://debug.worken.ai
+        - name: LANGFUSE_PUBLIC_KEY
+          value: pk-lf-4dc7a272-ed53-49a1-84ad-9bd9154840df
+        - name: LANGFUSE_SECRET_KEY
+          value: sk-lf-0d3e30aa-1ccf-4a5a-aa7a-2b57de673bc8
         - name: DATABASE_URL
           valueFrom:
             secretKeyRef:
